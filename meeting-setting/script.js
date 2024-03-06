@@ -108,16 +108,19 @@ function testSpeech() {
 
       var hourfull = speechResult.match('[\d]+:[\d]{2}');
       var hours = speechResult.match('[\d]+');
+      var temp;
       if(hourfull){
         var hour = hourfull.split(':')[0] % 12;
+        temp = hourfull.split(':')[1];
       }
       else if(hours){
         var hour = hours % 12;
+        temp = "00";
       }
       if(speechResult.includes(" p.m. ")){
         hour = hour + 12;
       }
-      var timefull = hour + ":" + hourfull.split(':')[1];
+      var timefull = hour + ":" + temp;
 
       resultPara.textContent = `Set up a meeting with ${meeting_member_string} at ${timefull} on ${formattedDate}.`;
       resultPara.style.background = 'lime';
