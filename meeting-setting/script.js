@@ -106,8 +106,8 @@ function testSpeech() {
         meeting_member_string = meeting_member_string + "and" + meeting_member[i];
       }
 
-      var hourfull = speechResult.match('[\d]+:[\d]{2}');
-      var hours = speechResult.match('[\d]+');
+      var hourfull = speechResult.match(/[\d]+:[\d]{2}/);
+      var hours = speechResult.match(/[\d]+/);
       var temp;
       if(hourfull){
         var hour = hourfull.split(':')[0] % 12;
