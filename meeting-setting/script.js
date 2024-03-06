@@ -61,18 +61,18 @@ function testSpeech() {
 
     var success = true;
     
-    if(speechResult.includes("set") === false){
-      success = false;
-    }
-    if(speechResult.includes("up") === false){
-      success = false;
-    }
-    if(speechResult.includes("meeting") === false){
-      success = false;
-    }
-    if(speechResult.includes("today") === false){
-      success = false;
-    }
+    // if(speechResult.includes("set") === false){
+    //   success = false;
+    // }
+    // if(speechResult.includes("up") === false){
+    //   success = false;
+    // }
+    // if(speechResult.includes("meeting") === false){
+    //   success = false;
+    // }
+    // if(speechResult.includes("today") === false){
+    //   success = false;
+    // }
 
     if(success === true) {
       // resultPara.textContent = 'I heard the correct phrase!';
