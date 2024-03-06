@@ -5,12 +5,16 @@ var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEv
 
 var team;
 
-function loadMember(jsonData){
-  // load the members of the team
-  team = jQuery.parseJSON(jsonData);
-}
-
-$.getJSON('./team_members.json', loadMember);
+$(function(){
+  $.ajax({
+    type: "POST",
+    url: "team_members.json",
+    dataType: "json",
+    success: function(result){
+      team = result;
+    }
+  })
+});
 
 var phrasePara = document.querySelector('.phrase');
 var resultPara = document.querySelector('.result');
