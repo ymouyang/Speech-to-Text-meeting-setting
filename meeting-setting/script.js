@@ -107,7 +107,13 @@ function testSpeech() {
       }
 
       var hourfull = speechResult.match('[\d]+:[\d]{2}');
-      var hour = hourfull.split(':')[0] % 12;
+      var hours = speechResult.match('[\d]+');
+      if(hourfull){
+        var hour = hourfull.split(':')[0] % 12;
+      }
+      else if(hours){
+        var hour = hours % 12;
+      }
       if(speechResult.includes(" p.m. ")){
         hour = hour + 12;
       }
