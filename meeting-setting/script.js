@@ -61,16 +61,16 @@ function testSpeech() {
 
     var success = true;
     
-    if(speechResult.includes("set")){
+    if(speechResult.includes("set") === false){
       success = false;
     }
-    if(speechResult.includes("up")){
+    if(speechResult.includes("up") === false){
       success = false;
     }
-    if(speechResult.includes("meeting")){
+    if(speechResult.includes("meeting") === false){
       success = false;
     }
-    if(speechResult.includes("today")){
+    if(speechResult.includes("today") === false){
       success = false;
     }
 
