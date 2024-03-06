@@ -45,7 +45,7 @@ function testSpeech() {
   testBtn.textContent = 'Test in progress';
 
   // To ensure case consistency while checking with the returned output text
-  var phrase = "set up a meeting with [who] at [what time] on [what day]";
+  var phrase = "set up a meeting with [who] at [what time] today";
   phrasePara.textContent = phrase;
   resultPara.textContent = 'Please speak clearly';
   resultPara.style.background = 'rgba(0,0,0,0.2)';
@@ -93,7 +93,7 @@ function testSpeech() {
       // resultPara.textContent = 'I heard the correct phrase!';
       var meeting_member = new Array();
       for(var i = 0; i < team_member.length; i++){
-        var member_name = team_member[i].name.split(' ');
+        const member_name = team_member[i].name.split(' ');
         for(var j = 0; j < member_name.length; j++){
           if(speechResult.includes(member_name[j])){
             meeting_member.push(team_member[i].email);
