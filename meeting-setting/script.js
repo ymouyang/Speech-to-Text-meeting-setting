@@ -2,16 +2,15 @@ var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-var phrases = [
-  'I love to sing because it\'s fun',
-  'where are you going',
-  'can I call you tomorrow',
-  'why did you talk while I was talking',
-  'she enjoys reading books and playing games',
-  'where are you going',
-  'have a great day',
-  'she sells seashells on the seashore'
-];
+
+var team;
+
+function loadMember(jsonData){
+  // load the members of the team
+  team = jQuery.parseJSON(jsonData);
+}
+
+$.getJSON('./team_members.json', loadMember);
 
 var phrasePara = document.querySelector('.phrase');
 var resultPara = document.querySelector('.result');
@@ -19,20 +18,21 @@ var diagnosticPara = document.querySelector('.output');
 
 var testBtn = document.querySelector('button');
 
-function randomPhrase() {
-  var number = Math.floor(Math.random() * phrases.length);
-  return number;
-}
+var today = new Date();
+var year = today.toLocaleString("default", {year: "numeric"});
+var month = today.toLocaleString("default", {month: "2-digit"});
+var day = today.toLocaleString("default", {day: "2-digit"});
+
+var formattedDate = year + "/" + month + "/" + day;
 
 function testSpeech() {
   testBtn.disabled = true;
   testBtn.textContent = 'Test in progress';
 
-  var phrase = phrases[randomPhrase()];
   // To ensure case consistency while checking with the returned output text
-  phrase = phrase.toLowerCase();
+  var phrase = "set up a meeting with [who] at [what time] on [what day]";
   phrasePara.textContent = phrase;
-  resultPara.textContent = 'Right or wrong?';
+  resultPara.textContent = 'Please speak clearly';
   resultPara.style.background = 'rgba(0,0,0,0.2)';
   diagnosticPara.textContent = '...diagnostic messages';
 
@@ -58,8 +58,38 @@ function testSpeech() {
     // We then return the transcript property of the SpeechRecognitionAlternative object 
     var speechResult = event.results[0][0].transcript.toLowerCase();
     diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
-    if(speechResult === phrase) {
-      resultPara.textContent = 'I heard the correct phrase!';
+
+    var failure = false;
+    
+    if(speechResult.includes("set")){
+      failure = true;
+    }
+    if(speechResult.includes("up")){
+      failure = true;
+    }
+    if(speechResult.includes("meeting")){
+      failure = true;
+    }
+
+    if(failure === false) {
+      // resultPara.textContent = 'I heard the correct phrase!';
+      var meeting_member = new Array();
+      for(var i = 0; i < team.member.length; i++){
+        if(speechResult.includes(team.member[i].name)){
+          meeting_member[i] = team.member[i].name;
+        }
+      }
+      var meeting_member_string = meeting_member[0];
+      for(var i = 1; i < meeting_member.length; i++){
+        meeting_member_string = meeting_member_string + "and" + meeting_member[i];
+      }
+
+      var hour = speechResult.match('/\d+/') % 12;
+      if(speechResult.includes(" pm ")){
+        hour = hour + 12;
+      }
+
+      resultPara.textContent = `Set up a meeting with ${meeting_member_string} at ${hour}:00 on ${formattedDate}.`
       resultPara.style.background = 'lime';
     } else {
       resultPara.textContent = 'That didn\'t sound right.';
