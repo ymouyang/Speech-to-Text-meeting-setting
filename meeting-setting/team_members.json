@@ -1,11 +1,1 @@
-{
-   "teamname": "teamcal.ai",
-   "member": [{
-      "name": "John Smith",
-      "email": "john@teamcal.ai"
-   },
-   {
-      "name": "Serena Bai",
-      "email": "serena@teamcal.ai"
-   }]
-}
+{"teamname": "teamcal.ai","member": [{"name": "John Smith","email": "john@teamcal.ai"},{"name": "Serena Bai","email": "serena@teamcal.ai"}]}
