@@ -16,6 +16,17 @@ $(function(){
   })
 });
 
+team_member = [
+  {
+     "name": "John Smith",
+     "email": "john@teamcal.ai"
+  },
+  {
+     "name": "Serena Bai",
+     "email": "serena@teamcal.ai"
+  }
+];
+
 var phrasePara = document.querySelector('.phrase');
 var resultPara = document.querySelector('.result');
 var diagnosticPara = document.querySelector('.output');
@@ -81,11 +92,11 @@ function testSpeech() {
     if(success === true) {
       // resultPara.textContent = 'I heard the correct phrase!';
       var meeting_member = new Array();
-      for(var i = 0; i < team.member.length; i++){
-        var member_name = team.member[i].name.split(' ');
+      for(var i = 0; i < team_member.length; i++){
+        var member_name = team_member[i].name.split(' ');
         for(var j = 0; j < member_name.length; j++){
           if(speechResult.includes(member_name[j])){
-            meeting_member.push(team.member[i].email);
+            meeting_member.push(team_member[i].email);
             break;
           }
         }
