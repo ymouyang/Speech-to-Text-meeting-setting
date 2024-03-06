@@ -61,18 +61,18 @@ function testSpeech() {
 
     var success = true;
     
-    // if(speechResult.includes("set") === false){
-    //   success = false;
-    // }
-    // if(speechResult.includes("up") === false){
-    //   success = false;
-    // }
-    // if(speechResult.includes("meeting") === false){
-    //   success = false;
-    // }
-    // if(speechResult.includes("today") === false){
-    //   success = false;
-    // }
+    if(speechResult.includes("set") === false){
+      success = false;
+    }
+    if(speechResult.includes("up") === false){
+      success = false;
+    }
+    if(speechResult.includes("meeting") === false){
+      success = false;
+    }
+    if(speechResult.includes("today") === false){
+      success = false;
+    }
 
     if(success === true) {
       // resultPara.textContent = 'I heard the correct phrase!';
@@ -96,9 +96,9 @@ function testSpeech() {
       if(speechResult.includes(" p.m. ")){
         hour = hour + 12;
       }
-      var timefull = hour + ":" + hourfull.split(':')[1]
+      var timefull = hour + ":" + hourfull.split(':')[1];
 
-      resultPara.textContent = `Set up a meeting with ${meeting_member_string} at ${timefull} on ${formattedDate}.`
+      resultPara.textContent = `Set up a meeting with ${meeting_member_string} at ${timefull} on ${formattedDate}.`;
       resultPara.style.background = 'lime';
     } else {
       resultPara.textContent = 'That didn\'t sound right.';
