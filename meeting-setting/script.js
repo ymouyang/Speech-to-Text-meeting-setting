@@ -59,24 +59,31 @@ function testSpeech() {
     var speechResult = event.results[0][0].transcript.toLowerCase();
     diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
 
-    var failure = false;
+    var success = true;
     
     if(speechResult.includes("set")){
-      failure = true;
+      success = false;
     }
     if(speechResult.includes("up")){
-      failure = true;
+      success = false;
     }
     if(speechResult.includes("meeting")){
-      failure = true;
+      success = false;
+    }
+    if(speechResult.includes("today")){
+      success = false;
     }
 
-    if(failure === false) {
+    if(success === true) {
       // resultPara.textContent = 'I heard the correct phrase!';
       var meeting_member = new Array();
       for(var i = 0; i < team.member.length; i++){
-        if(speechResult.includes(team.member[i].name)){
-          meeting_member[i] = team.member[i].name;
+        var member_name = team.member[i].name.split(' ');
+        for(var j = 0; j < member_name.length; j++){
+          if(speechResult.includes(member_name[j])){
+            meeting_member.push(team.member[i].email);
+            break;
+          }
         }
       }
       var meeting_member_string = meeting_member[0];
@@ -84,12 +91,14 @@ function testSpeech() {
         meeting_member_string = meeting_member_string + "and" + meeting_member[i];
       }
 
-      var hour = speechResult.match('/\d+/') % 12;
+      var hourfull = speechResult.match('[\d]+:[\d]{2}');
+      var hour = hourfull.split(':')[0] % 12;
       if(speechResult.includes(" pm ")){
         hour = hour + 12;
       }
+      var timefull = hour + ":" + hourfull.split(':')[1]
 
-      resultPara.textContent = `Set up a meeting with ${meeting_member_string} at ${hour}:00 on ${formattedDate}.`
+      resultPara.textContent = `Set up a meeting with ${meeting_member_string} at ${timefull} on ${formattedDate}.`
       resultPara.style.background = 'lime';
     } else {
       resultPara.textContent = 'That didn\'t sound right.';
