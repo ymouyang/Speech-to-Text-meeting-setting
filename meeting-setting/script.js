@@ -18,10 +18,6 @@ $(function(){
 
 var team_members;
 
-$.getJSON('https://github.com/ymouyang/Speech-to-Text-meeting-setting/blob/main/meeting-setting/team_members.json', function(data) {
-  team_members = data;
-  });
-
 team_members = [
   {
      "name": "John Smith",
