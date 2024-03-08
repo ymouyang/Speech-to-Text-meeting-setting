@@ -10,13 +10,13 @@ $(function(){
     type: "POST",
     url: "team_members.json",
     dataType: "json",
-    success: function(result){
+    isSuccessful: function(result){
       team = result;
     }
   })
 });
 
-team_member = [
+var team_members = [
   {
      "name": "John Smith",
      "email": "john@teamcal.ai"
@@ -63,64 +63,56 @@ function testSpeech() {
   recognition.start();
 
   recognition.onresult = function(event) {
-    // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
-    // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
-    // It has a getter so it can be accessed like an array
-    // The first [0] returns the SpeechRecognitionResult at position 0.
-    // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
-    // These also have getters so they can be accessed like arrays.
-    // The second [0] returns the SpeechRecognitionAlternative at position 0.
-    // We then return the transcript property of the SpeechRecognitionAlternative object 
-    var speechResult = event.results[0][0].transcript.toLowerCase();
+    let speechResult = event.results[0][0].transcript.toLowerCase();
     diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
 
-    var success = true;
+    let isSuccessful = true;
     
     if(speechResult.includes("set") === false){
-      success = false;
+      isSuccessful = false;
     }
     if(speechResult.includes("up") === false){
-      success = false;
+      isSuccessful = false;
     }
     if(speechResult.includes("meeting") === false){
-      success = false;
+      isSuccessful = false;
     }
     if(speechResult.includes("today") === false){
-      success = false;
+      isSuccessful = false;
     }
 
-    if(success === true) {
-      // resultPara.textContent = 'I heard the correct phrase!';
-      var meeting_member = new Array();
-      for(var i = 0; i < team_member.length; i++){
-        const member_name = team_member[i].name.split(' ');
-        for(var j = 0; j < member_name.length; j++){
-          if(speechResult.includes(member_name[j])){
-            meeting_member.push(team_member[i].email);
+    if(isSuccessful === true) {
+      let meeting_member = [];
+      for(let i = 0; i < team_members.length; i++){
+        let member_name = team_members[i].name.split(' ');
+        for(let j = 0; j < member_name.length; j++){
+          if(speechResult.includes(member_name[j].toLowerCase())){
+            meeting_member.push(team_members[i].email);
             break;
           }
         }
       }
-      var meeting_member_string = meeting_member[0];
-      for(var i = 1; i < meeting_member.length; i++){
-        meeting_member_string = meeting_member_string + "and" + meeting_member[i];
+      let meeting_member_string = meeting_member[0];
+      for(let i = 1; i < meeting_member.length; i++){
+        meeting_member_string = meeting_member_string + " and " + meeting_member[i];
       }
 
-      var hourfull = speechResult.match(/[\d]+:[\d]{2}/);
-      var hours = speechResult.match(/[\d]+/);
-      var temp;
+      let hourfull = speechResult.match(/[\d]+:[\d]{2}/)[0];
+      let hours = speechResult.match(/[\d]+/)[0];
+      let temp;
+      let hour;
       if(hourfull){
-        var hour = hourfull.split(':')[0] % 12;
+        hour = hourfull.split(':')[0] % 12;
         temp = hourfull.split(':')[1];
       }
       else if(hours){
-        var hour = hours % 12;
+        hour = hours % 12;
         temp = "00";
       }
       if(speechResult.includes(" p.m. ")){
         hour = hour + 12;
       }
-      var timefull = hour + ":" + temp;
+      let timefull = hour + ":" + temp;
 
       resultPara.textContent = `Set up a meeting with ${meeting_member_string} at ${timefull} on ${formattedDate}.`;
       resultPara.style.background = 'lime';
