@@ -1,7 +1,7 @@
 SpeechRecognition
 =================
 
-**Quickstart:** Click the link and go to the web page. `Web page <https://pypi.python.org/pypi/SpeechRecognition/>`__
+**Quickstart:** Click the link and go to the web page. `Web page <https://ymouyang.github.io/Speech-to-Text-meeting-setting/meeting-setting/>`__
 
 
 Requirements
